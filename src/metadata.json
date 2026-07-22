@@ -1,0 +1,6 @@
+{
+  "name": "Scraper de Videos Embed",
+  "description": "Herramienta interactiva para generar scripts de Python (Playwright, BeautifulSoup) que extraen enlaces embebidos de servidores como Streamwish y Vidhide, incluyendo simulación y analizador de HTML.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
