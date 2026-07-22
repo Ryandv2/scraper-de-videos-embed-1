@@ -1,0 +1,107 @@
+================================================================================
+           GUÍA COMPLETA DE INSTALACIÓN Y USO - EMBED SCRAPER PRO
+================================================================================
+
+Este documento contiene todos los pasos necesarios para instalar, configurar y
+ejecutar la aplicación "Embed Scraper Pro" tanto en entornos locales como en
+servidores de producción.
+
+--------------------------------------------------------------------------------
+1. REQUISITOS PREVIOS
+--------------------------------------------------------------------------------
+Antes de comenzar, asegúrate de tener instalado en tu sistema:
+- Node.js (v18 o superior)
+- npm (administrador de paquetes de Node)
+- Python (v3.8 o superior)
+- pip (administrador de paquetes de Python)
+
+--------------------------------------------------------------------------------
+2. INSTALACIÓN Y CONFIGURACIÓN DEL BACKEND (Python / Scraper)
+--------------------------------------------------------------------------------
+El núcleo del Scraper dinámico utiliza Playwright para navegar imitando a un
+usuario real y extraer reproductores incluso si la página tiene protecciones o
+requiere la ejecución de Javascript.
+
+Pasos para preparar el entorno de Python:
+
+a) Crear un entorno virtual (Recomendado):
+   python -m venv venv
+
+b) Activar el entorno virtual:
+   - En Windows:
+     venv\Scripts\activate
+   - En macOS / Linux:
+     source venv/bin/activate
+
+c) Instalar las librerías necesarias:
+   pip install playwright beautifulsoup4 requests selenium
+
+d) Instalar los navegadores de Playwright:
+   Este paso es CRUCIAL. Playwright necesita sus propios binarios de Chromium/Firefox/Webkit:
+   playwright install chromium
+
+   *Nota para servidores Linux/Docker (sin interfaz gráfica):
+   Si estás desplegando en Ubuntu/Debian, instala también las dependencias del sistema:
+   playwright install-deps
+
+--------------------------------------------------------------------------------
+3. INSTALACIÓN Y CONFIGURACIÓN DE LA INTERFAZ WEB (React / Node / Express)
+--------------------------------------------------------------------------------
+La aplicación se compone de un frontend ultra-premium responsivo con React + Vite
+y un backend servidor intermedio hecho en Express + TypeScript.
+
+a) Instalar dependencias del proyecto de Node:
+   Abra un terminal en la raíz del proyecto y ejecute:
+   npm install
+
+b) Ejecutar en Modo de Desarrollo:
+   npm run dev
+   (Esto iniciará el servidor Express en el puerto 3000 con soporte de renderizado 
+   del frontend en tiempo real). Acceda mediante: http://localhost:3000
+
+c) Compilar para Producción:
+   npm run build
+   (Compila el cliente estático de React a la carpeta dist/ y el servidor a CJS).
+
+d) Iniciar en Producción:
+   npm start
+
+--------------------------------------------------------------------------------
+4. ¿CÓMO FUNCIONA EL MOTOR DE DETECCIÓN Y DESOFUSCACIÓN / DESENCRIPTADO?
+--------------------------------------------------------------------------------
+La aplicación integra múltiples capas automáticas para detectar los reproductores
+(Streamwish, Vidhide, Filemoon, Streamtape, Vidoza, Doodstream, VOE, Mixdrop):
+
+1. Escaneo de iFrames:
+   Inspecciona las etiquetas <iframe src="..."> dentro del DOM dinámico.
+
+2. Descifrador de Base64:
+   Busca patrones de texto cifrados en Base64, los decodifica en tiempo de
+   ejecución y verifica si la cadena resultante contiene URLs de los servidores soportados.
+
+3. Decodificador Hexadecimal y Unicode:
+   Si el HTML o código Javascript contiene secuencias como "\x68\x74\x74\x70\x73"
+   o "\u0068\u0074\u0074\u0070\u0073", el motor las decodifica automáticamente
+   revelando la URL real.
+
+4. Desofuscador de Packer (Dean Edwards):
+   Si el HTML tiene scripts protegidos con "eval(function(p,a,c,k,e,r)...)", 
+   nuestro desofuscador integrado analiza el diccionario del script empaquetado, 
+   reconstruye el código original y extrae los enlaces que estaban ocultos.
+
+--------------------------------------------------------------------------------
+5. SOLUCIÓN A PROBLEMAS FRECUENTES (FAQ)
+--------------------------------------------------------------------------------
+- Error: "Playwright not installed" o "Executable doesn't exist"
+  Solución: Ejecuta el comando 'playwright install chromium' con tu entorno virtual activo.
+
+- Error: "Missing dependencies" en Linux
+  Solución: Ejecuta 'playwright install-deps' para instalar las librerías del sistema necesarias.
+
+- Bloqueos de Cloudflare:
+  Asegúrate de que tus scripts usen un User-Agent móvil premium, como el provisto por defecto en la
+  suite, para evadir los bloqueos basados en la huella del navegador.
+
+================================================================================
+¡Listo! Ya tienes una herramienta de extracción ultra premium de nivel empresarial.
+================================================================================
